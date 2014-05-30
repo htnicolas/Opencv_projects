@@ -6,9 +6,10 @@ using namespace cv;
 using namespace std;
 
 Vec3b averagePix( Mat &image );
+void drawObject(int x, int y, Mat &image);
 
-const int FRAME_WIDTH = 1280; // 640;
-const int FRAME_HEIGHT = 960; //480;
+const int FRAME_WIDTH = 640; //#cols
+const int FRAME_HEIGHT = 480; //#rows
 
 int main(){
 
@@ -44,7 +45,10 @@ int main(){
 		G = (int) G/(image.rows*image.cols);
 		R = (int) R/(image.rows*image.cols);
 
+		//cout << "# ROWS = " << image.rows << "\t # COLS = " << image.cols << endl;
 		cout << "R = " << R <<"\t G = " << G << "\t B = " << B << endl;
+
+		drawObject(100,150,image);
 
 		// wait 33ms between frames, quit if user presses ESC
 		key = waitKey(33);
@@ -52,11 +56,17 @@ int main(){
 			break;
 		}
 	}
-
+	
 	destroyAllWindows();
 
 	return 0;
 }
+
+//draw object on top of image
+void drawObject(int x, int y, Mat &image){
+	circle(image, Point(x,y), 20, Scalar(0, 255, 0), 2);
+}
+
 
 /* function to compute mean BGR value
 input:  address of Mat image
