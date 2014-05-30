@@ -20,13 +20,28 @@ int main(){
 	// create window to show image
 	namedWindow("Window",1);
 
+	int R = 0, G = 0, B = 0;
+
 	while(1){
 		//copy webcam stream to image
 		cap>>image;
 		imshow("window", image);
 
-		pixVec = averagePix( image );
-		cout << pixVec << endl << endl;
+		//pixVec = averagePix( image );
+		//cout << pixVec << endl << endl;
+
+		for(int i=0; i<image.rows; i++){
+			for(int j=0; j<image.cols; j++){
+				B += image.at<Vec3b>(i,j)[0];
+				G += image.at<Vec3b>(i,j)[1];
+				R += image.at<Vec3b>(i,j)[2];
+			}
+		}
+		B = (int) B/(image.rows*image.cols);
+		G = (int) G/(image.rows*image.cols);
+		R = (int) R/(image.rows*image.cols);
+
+		cout << "R = " << R <<"\t G = " << G << "\t B = " << B << endl;
 
 		// wait 33ms between frames, quit if user presses ESC
 		key = waitKey(33);
