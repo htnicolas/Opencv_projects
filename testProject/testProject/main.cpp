@@ -28,7 +28,8 @@ int main(){
 	}
 
 	// create window to show image
-	namedWindow("Window",1);
+	namedWindow("Skin",1);
+	namedWindow("Original",1);
 
 	int R = 0, G = 0, B = 0;
 
@@ -39,10 +40,13 @@ int main(){
 		drawObject(100, 150, image);
 		skin = detectSkin(image);
 
-		imshow("Window", skin);
+		imshow("Skin", skin);
+		imshow("Original", image);
 
+		/*
 		pixAverage(image,R,G,B);
 		cout << "R = " << R <<"\t G = " << G << "\t B = " << B << endl;
+		*/
 
 		// wait 33ms between frames, quit if user presses ESC
 		key = waitKey(33);
@@ -62,7 +66,7 @@ void drawObject(int x, int y, Mat &image){
 	int lineWidth = 1;
 	int size = 20;
 	stringstream ss_x, ss_y;
-
+	//make sure every object drawn is within image dimensions
 	circle(image, Point(x,y), 10, Scalar(0, 255, 0), 1);
 	if(y-size>0)
     line(image,Point(x,y),Point(x,y-25),Scalar(0,255,0),lineWidth);
@@ -77,6 +81,7 @@ void drawObject(int x, int y, Mat &image){
     line(image,Point(x,y),Point(x+25,y),Scalar(0,255,0),lineWidth);
     else line(image,Point(x,y),Point(FRAME_WIDTH,y),Scalar(0,255,0),lineWidth);
 
+	//convert int to string
 	ss_x << x;
 	ss_y << y;
 	putText(image,ss_x.str()+","+ss_y.str(),Point(x,y+30),1,1,Scalar(0,255,0),lineWidth);
@@ -84,8 +89,10 @@ void drawObject(int x, int y, Mat &image){
 
 
 
-// detect skin in image. Must convert to YCbCr space
+// detect skin in image.
+// First convert to YCbCr, threshold Cb, Cr, then AND the resulting masks.
 Mat detectSkin(Mat &image){
+	//From http://ro.uow.edu.au/cgi/viewcontent.cgi?article=1254&context=infopapers
 	//thresholds: (Cb>=77 & Cb<=127 & Cr>=133 & Cr<=173)
 	Mat output;
 	Mat YCbCr;
@@ -103,8 +110,9 @@ Mat detectSkin(Mat &image){
 
 
 //compute average BGR values
+//Note: this substantially slows down the FPS
 void pixAverage(Mat &image, int &R, int &B, int &G){
-		for(int i=0; i<image.rows; i++){
+	for(int i=0; i<image.rows; i++){
 		for(int j=0; j<image.cols; j++){
 			B += image.at<Vec3b>(i,j)[0];
 			G += image.at<Vec3b>(i,j)[1];
