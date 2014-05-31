@@ -1,4 +1,4 @@
-﻿Build started 5/30/2014 6:06:48 PM.
+﻿Build started 5/31/2014 12:17:03 AM.
      1>Project "C:\Users\Nicolas\Documents\Projects\Opencv_projects\testProject\testProject\testProject.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\testProject.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -23,4 +23,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.33
+Time Elapsed 00:00:02.58
