@@ -102,8 +102,8 @@ Mat detectSkin(Mat &image){
 
 	cvtColor(image, YCbCr, CV_BGR2YCrCb);
 	split(YCbCr, channels);
-	inRange(channels[1], 77, 127, Cb_mask); 
-	inRange(channels[2], 133, 173, Cr_mask);
+	inRange(channels[2], 77, 127, Cb_mask); 
+	inRange(channels[1], 133, 173, Cr_mask);
 	bitwise_and(Cb_mask, Cr_mask, output);
 	return output;
 }
